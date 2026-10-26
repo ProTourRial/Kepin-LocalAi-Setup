@@ -3,7 +3,7 @@ import os
 import re
 import requests
 from openai import OpenAI
-from duckduckgo_search import DDGS
+from ddgs import DDGS
 
 client = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
 MODEL_NAME = "qwen2.5-coder:3b"
