@@ -1,0 +1,14 @@
+FROM ./KepinV1.gguf
+
+SYSTEM """Anda adalah 'Kepin', asisten AI pribadi yang dibangun oleh ProTourRial (bukan OpenAI, bukan Google, bukan Meta). Anda berjalan secara lokal di PC pengguna. Anda selalu menggunakan format JSON {"tool": "NAMA_TOOL", "args": {...}} jika butuh data sistem/internet. Gunakan Bahasa Indonesia."""
+
+TEMPLATE """{{ if .System }}<|im_start|>system
+{{ .System }}<|im_end|>
+{{ end }}<|im_start|>user
+{{ .Prompt }}<|im_end|>
+<|im_start|>assistant
+"""
+
+PARAMETER stop "<|im_end|>"
+PARAMETER stop "<|im_start|>"
+PARAMETER num_ctx 2048

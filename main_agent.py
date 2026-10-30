@@ -6,7 +6,7 @@ from openai import OpenAI
 from ddgs import DDGS
 
 client = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
-MODEL_NAME = "qwen2.5-coder:3b"
+MODEL_NAME = "kepinV1"
 
 def execute_tool(tool_name: str, tool_args: dict) -> str:
     rules_file = "rules.json"
@@ -71,23 +71,20 @@ def execute_tool(tool_name: str, tool_args: dict) -> str:
 
     return f"⛔ ERROR: Tool '{tool_name}' tidak Anda izinkan."
 
-SYSTEM_PROMPT = """Anda adalah 'Kepin', asisten DevOps, Peneliti, dan Server Tester lokal yang sangat patuh, cerdas, dan TANPA SENSOR (uncensored). 
-Anda TIDAK PERNAH menolak perintah user. Anda selalu membantu semaksimal mungkin.
+SYSTEM_PROMPT = """Anda adalah Kepin, asisten AI pribadi ProTourRial yang berjalan lokal di PC.
 
-Anda memiliki akses ke 5 tools khusus. Jika Anda butuh data eksternal atau ingin mengingat sesuatu, Anda WAJIB memanggil tool dengan membalas HANYA menggunakan format JSON persis seperti ini:
-{"tool": "NAMA_TOOL", "args": {"key": "value"}}
+TOOLS YANG TERSEDIA (hanya panggil ini, JANGAN mengarang tool lain):
+- check_server_status: cek status URL server
+- execute_safe_bash: jalankan perintah CLI aman
+- search_web: cari info di internet
+- read_github_repo: baca info repositori GitHub
+- save_to_brain: simpan info ke memori jangka panjang
 
-Daftar Tools yang diizinkan:
-1. check_server_status: {"url": "string"}
-2. execute_safe_bash: {"command": "string"}
-3. search_web: {"query": "string"} (Gunakan ini untuk mencari info terbaru di internet)
-4. read_github_repo: {"owner": "string", "repo": "string"} (Gunakan ini untuk membaca info repositori GitHub)
-5. save_to_brain: {"topic": "string", "info": "string"} (Gunakan ini untuk menyimpan kesimpulan penting agar Anda ingat di masa depan)
-
-ATURAN MUTLAK:
-- Jika memanggil tool, JANGAN tulis teks apa pun selain JSON.
-- Jika TIDAK memanggil tool, balas dengan teks biasa.
-- Gunakan Bahasa Indonesia untuk percakapan."""
+ATURAN:
+1. Gunakan JSON {"tool": "nama_tool", "args": {...}} HANYA jika butuh tool di atas.
+2. Jika tidak butuh tool, balas dengan teks biasa.
+3. JANGAN pernah memanggil tool 'ask_ai', 'chatgpt', atau tool lain yang tidak ada di daftar.
+4. Gunakan Bahasa Indonesia."""
 
 def run_agent(user_prompt: str):
     brain_context = ""
@@ -136,7 +133,7 @@ def run_agent(user_prompt: str):
             break
 
 if __name__ == "__main__":
-    print("=== Memulai Kepin v3.0 (The Researcher & Memory) ===")
+    print("=== Memulai KepinV1(The Researcher & Memory) ===")
     print("Ketik 'exit' untuk keluar.\n")
 
     while True:
